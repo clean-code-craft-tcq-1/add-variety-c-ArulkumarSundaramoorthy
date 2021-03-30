@@ -15,5 +15,5 @@ TEST_CASE("Test the High limit & also Email Alert") {
   BatteryCharacter batteryChar;
   batteryChar.coolingType = PASSIVE_COOLING;
   batteryChar.brand = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-  ASSET(checkAndAlert(1, batteryChar, 40));
+  ASSERT(checkAndAlert(1, batteryChar, 40));
 }
