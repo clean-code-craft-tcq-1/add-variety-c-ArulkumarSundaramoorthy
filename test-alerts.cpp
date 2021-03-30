@@ -15,5 +15,5 @@ TEST_CASE("Test the High limit & also Email Alert") {
   BatteryCharacter batteryChar;
   batteryChar.coolingType = 0;
   batteryChar.brand = "xxxxx";
-  REQUIRE(checkAndAlert(1, batteryChar, 40);
+  REQUIRE(checkAndAlert(1, batteryChar, 40));
 }
