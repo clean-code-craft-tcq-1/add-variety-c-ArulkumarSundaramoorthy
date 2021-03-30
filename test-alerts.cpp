@@ -11,9 +11,7 @@ TEST_CASE("infers the breach according to limits HIGH") {
   REQUIRE(inferBreach(32, 20, 30) == TOO_HIGH);
 }
 
-TEST_CASE("Test the High limit & also Email Alert") {
-  BatteryCharacter batteryChar;
-  batteryChar.coolingType = PASSIVE_COOLING;
-  batteryChar.brand = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-  REQUIRE(checkAndAlert(1, batteryChar, 40));
+
+TEST_CASE("Controller Alert") {
+  REQUIRE(sendToController(TOO_LOW));
 }
