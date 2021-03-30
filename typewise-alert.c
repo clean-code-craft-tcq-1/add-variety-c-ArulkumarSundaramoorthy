@@ -1,6 +1,27 @@
+/* *************************************************************************
+* File Name   :	typewise-alert.c
+* Description : Battery Limit check based on Cooling Type
+* Functions	  : 1. inferBreach
+*				2. checkAndAlert
+*				3. sendToController
+*				4. sendToEmail
+* ************************************************************************* */
+
+/* ***************************** Header Files ***************************** */
 #include "typewise-alert.h"
 #include <stdio.h>
 
+/* *****************************  Variables  ****************************** */
+BatteryBreachLimit BatteryCoolTypeLimit[3] = {{0,35},{0,45},{0,40}};
+
+/* *************************************************************************
+* Function Name : inferBreach
+* Description   : Check the breach limit
+* Arguments	    : 1. value - values for compare
+*				  2. lowerLimit - another values for compare
+*				  3. upperLimit - Maximum acceptable changes
+* Returns		: BreachType(NORMAL / TOO_LOW / TOO_HIGH)
+* ************************************************************************* */
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
     return TOO_LOW;
@@ -11,33 +32,19 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   return NORMAL;
 }
 
-BreachType classifyTemperatureBreach(
-    CoolingType coolingType, double temperatureInC) {
-  int lowerLimit = 0;
-  int upperLimit = 0;
-  switch(coolingType) {
-    case PASSIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 35;
-      break;
-    case HI_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 45;
-      break;
-    case MED_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 40;
-      break;
-  }
-  return inferBreach(temperatureInC, lowerLimit, upperLimit);
-}
-
+/* *************************************************************************
+* Function Name : checkAndAlert
+* Description   : Check the breach limit & send a alert
+* Arguments	    : 1. alertTarget - Alert type
+*				  2. batteryChar - Cooling Type
+*				  3. temperatureInC - Temperature value
+* Returns		: -
+* ************************************************************************* */
 void checkAndAlert(
     AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
 
-  BreachType breachType = classifyTemperatureBreach(
-    batteryChar.coolingType, temperatureInC
-  );
+	BreachType breachType = inferBreach(temperatureInC, BatteryCoolTypeLimit[batteryChar.coolingType].lowerLimit, 
+								BatteryCoolTypeLimit[batteryChar.coolingType].upperLimit);
 
   switch(alertTarget) {
     case TO_CONTROLLER:
@@ -49,11 +56,23 @@ void checkAndAlert(
   }
 }
 
+/* *************************************************************************
+* Function Name : sendToController
+* Description   : send a alert to Controller
+* Arguments	    : 1. BreachType(NORMAL / TOO_LOW / TOO_HIGH)
+* Returns		: -
+* ************************************************************************* */
 void sendToController(BreachType breachType) {
   const unsigned short header = 0xfeed;
   printf("%x : %x\n", header, breachType);
 }
 
+/* *************************************************************************
+* Function Name : sendToEmail
+* Description   : send a alert via Email
+* Arguments	    : 1. BreachType(NORMAL / TOO_LOW / TOO_HIGH)
+* Returns		: -
+* ************************************************************************* */
 void sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
   switch(breachType) {
