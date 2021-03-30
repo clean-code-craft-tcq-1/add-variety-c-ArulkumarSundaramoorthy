@@ -13,5 +13,5 @@ TEST_CASE("infers the breach according to limits HIGH") {
 
 
 TEST_CASE("Controller Alert") {
-  REQUIRE(sendToController(TOO_LOW));
+  ASSERT(sendToController(0));
 }
