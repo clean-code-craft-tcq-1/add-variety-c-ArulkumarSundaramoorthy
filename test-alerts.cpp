@@ -12,5 +12,8 @@ TEST_CASE("infers the breach according to limits HIGH") {
 }
 
 TEST_CASE("Test the High limit & also Email Alert") {
-  REQUIRE(checkAndAlert(1, {0,"xxxx"}, 40);
+  BatteryCharacter batteryChar;
+  batteryChar.coolingType = 0;
+  batteryChar.brand = "xxxxx";
+  REQUIRE(checkAndAlert(1, batteryChar, 40);
 }
