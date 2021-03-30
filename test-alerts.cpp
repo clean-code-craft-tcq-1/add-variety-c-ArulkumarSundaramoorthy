@@ -10,3 +10,7 @@ TEST_CASE("infers the breach according to limits LOW") {
 TEST_CASE("infers the breach according to limits HIGH") {
   REQUIRE(inferBreach(32, 20, 30) == TOO_HIGH);
 }
+
+TEST_CASE("Test the High limit & also Email Alert") {
+  REQUIRE(checkAndAlert(1, {0,"xxxx"}, 40);
+}
