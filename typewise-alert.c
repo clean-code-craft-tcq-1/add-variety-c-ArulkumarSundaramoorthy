@@ -42,7 +42,7 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
 *		  3. temperatureInC - Temperature value
 * Returns	: Send Fail or Pass
 * ************************************************************************* */
-void checkAndAlert(
+SendStatus checkAndAlert(
     AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
 	
 	SendStatus ReturnStatus = SEND_FAIL;
