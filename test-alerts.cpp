@@ -27,6 +27,11 @@ TEST_CASE("Test the Send operation - Email / High") {
   REQUIRE( checkAndAlert(TO_EMAIL, batterychar, 50)== SEND_PASS);
 }
 
+TEST_CASE("Test the Send operation - Email / Low") {
+  BatteryCharacter batterychar = {HI_ACTIVE_COOLING, "ABC"};
+  REQUIRE( checkAndAlert(TO_EMAIL, batterychar, 0)== SEND_PASS);
+}
+
 TEST_CASE("Test the Send operation - Console") {
   BatteryCharacter batterychar = {MED_ACTIVE_COOLING, "ABC"};
   REQUIRE( checkAndAlert(TO_CONSOLE, batterychar, 30)== SEND_PASS);
