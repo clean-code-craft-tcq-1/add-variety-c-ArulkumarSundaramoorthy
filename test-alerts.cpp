@@ -10,3 +10,18 @@ TEST_CASE("infers the breach according to limits LOW") {
 TEST_CASE("infers the breach according to limits HIGH") {
   REQUIRE(inferBreach(32, 20, 30) == TOO_HIGH);
 }
+
+TEST_CASE("Test the Send operation - Controller") {
+  BatteryCharacter batterychar = {PASSIVE_COOLING, "ABC"};
+  REQUIRE( checkAndAlert(TO_CONTROLLER, batterychar, 25)== SEND_PASS);
+}
+
+TEST_CASE("Test the Send operation - Email") {
+  BatteryCharacter batterychar = {HI_ACTIVE_COOLING, "ABC"};
+  REQUIRE( checkAndAlert(TO_EMAIL, batterychar, 40)== SEND_PASS);
+}
+
+TEST_CASE("Test the Send operation - Console") {
+  BatteryCharacter batterychar = {MED_ACTIVE_COOLING, "ABC"};
+  REQUIRE( checkAndAlert(TO_CONSOLE, batterychar, 30)== SEND_PASS);
+}
