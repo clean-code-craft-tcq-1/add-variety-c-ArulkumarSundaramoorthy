@@ -30,6 +30,6 @@ jobs:
         name: coverage
         path: ./*.html
         retention-days: 1
-        
-   - name: build for production
-     run: g++ -Wall -Wextra -o bmsalerter main.c typewise-alert.c ControllerConnect/ControllerSend.c
+
+    - name: build for production
+      run: g++ -Wall -Wextra -o bmsalerter main.c typewise-alert.c ControllerConnect/ControllerSend.c
