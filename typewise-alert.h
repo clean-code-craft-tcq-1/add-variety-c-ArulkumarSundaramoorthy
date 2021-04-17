@@ -1,5 +1,5 @@
 /* *************************************************************************
-* File Name   :	sensor-validate.h
+* File Name   :	typewise-alert.h
 * Description : Validate SOC & Current Readings
 * Functions	  : - 
 * ************************************************************************* */
