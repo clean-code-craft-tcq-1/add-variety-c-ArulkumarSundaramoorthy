@@ -16,5 +16,6 @@
 * ************************************************************************* */
  SendStatus sendToController(BreachType breachType) {
    //Send to controller
+  BreachType breachType1 = breachType;
   return CONTROLLER_SEND_PASS;
 }
