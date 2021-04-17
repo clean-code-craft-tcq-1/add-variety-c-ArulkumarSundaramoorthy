@@ -33,6 +33,3 @@ jobs:
 
     - name: build for production
       run: g++ -Wall -Wextra -o bmsalerter *.c* ControllerConnect/ControllerSend.c
-
-    - name: run
-      run: ./bmsalerter
