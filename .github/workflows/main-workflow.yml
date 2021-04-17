@@ -32,4 +32,7 @@ jobs:
         retention-days: 1
 
     - name: build for production
-      run: g++ -Wall -Wextra -ftest-coverage -o bmsalerter *.c* ControllerConnect/ControllerSend.c
+      run: g++ -Wall -Wextra -o bmsalerter *.c* ControllerConnect/ControllerSend.c
+
+    - name: run
+      run: ./bmsalerter
