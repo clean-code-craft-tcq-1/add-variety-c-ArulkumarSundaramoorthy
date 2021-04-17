@@ -80,7 +80,7 @@ SendStatus sendToEmail(BreachType breachType) {
   printf("To: %s\n", recepient);
 
  if((breachType == TOO_LOW) || (breachType == TOO_HIGH)) {
-   printf("Hi, the temperature is %s\n",emailAlertStr[breachType];
+   printf("Hi, the temperature is %s\n",emailAlertStr[breachType]);
    }
 	  
  return EMAIL_SEND_PASS;
