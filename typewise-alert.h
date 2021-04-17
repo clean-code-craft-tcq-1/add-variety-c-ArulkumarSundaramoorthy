@@ -38,7 +38,9 @@ typedef struct {
 
 typedef enum {
   SEND_FAIL,
-  SEND_PASS
+  EMAIL_SEND_PASS,
+  CONTROLLER_SEND_PASS,
+  CONSOLE_SEND_PASS
 } SendStatus;
 
 /* ***************************** Prototypes ***************************** */
