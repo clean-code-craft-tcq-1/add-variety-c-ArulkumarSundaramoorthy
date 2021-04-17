@@ -31,5 +31,5 @@ jobs:
         path: ./*.html
         retention-days: 1
         
-     - name: build for production
-      run: g++ -Wall -Wextra -o bmsalerter *.c* ControllerConnect/ControllerSend.c
+   - name: build for production
+     run: g++ -Wall -Wextra -o bmsalerter *.c* ControllerConnect/ControllerSend.c
