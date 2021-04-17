@@ -1,6 +1,6 @@
 /* *************************************************************************
 * File Name   :	typewise-alert.h
-* Description : Validate SOC & Current Readings
+* Description : typewise alert
 * Functions	  : - 
 * ************************************************************************* */
 #ifndef TYPEWISE_ALERT_H
