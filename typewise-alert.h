@@ -1,5 +1,13 @@
+/* *************************************************************************
+* File Name   :	typewise-alert.h
+* Description : typewise alert
+* Functions	  : - 
+* ************************************************************************* */
+#ifndef TYPEWISE_ALERT_H
+#define TYPEWISE_ALERT_H
 #pragma once
 
+/* ***************************** Typedef ***************************** */
 typedef enum {
   PASSIVE_COOLING,
   HI_ACTIVE_COOLING,
@@ -12,12 +20,15 @@ typedef enum {
   TOO_HIGH
 } BreachType;
 
-BreachType inferBreach(double value, double lowerLimit, double upperLimit);
-BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC);
+typedef struct {
+	double lowerLimit;
+	double upperLimit;
+}BatteryBreachLimit;
 
 typedef enum {
   TO_CONTROLLER,
-  TO_EMAIL
+  TO_EMAIL,
+  TO_CONSOLE
 } AlertTarget;
 
 typedef struct {
@@ -25,8 +36,18 @@ typedef struct {
   char brand[48];
 } BatteryCharacter;
 
-void checkAndAlert(
-  AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
+typedef enum {
+  SEND_FAIL,
+  EMAIL_SEND_PASS,
+  CONTROLLER_SEND_PASS,
+  CONSOLE_SEND_PASS
+} SendStatus;
 
-void sendToController(BreachType breachType);
-void sendToEmail(BreachType breachType);
+/* ***************************** Prototypes ***************************** */
+SendStatus checkAndAlert(
+  AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
+SendStatus sendToEmail(BreachType breachType);
+SendStatus sendToConsole(BreachType breachType);
+BreachType inferBreach(double value, double lowerLimit, double upperLimit);
+
+#endif

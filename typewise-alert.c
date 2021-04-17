@@ -1,6 +1,30 @@
-#include "typewise-alert.h"
-#include <stdio.h>
+/* *************************************************************************
+* File Name   :	typewise-alert.c
+* Description : Battery Limit check based on Cooling Type
+* Functions  : 1. inferBreach
+*	       2. checkAndAlert
+*	       3. sendToEmail
+*	       4. sendToConsole
+* ************************************************************************* */
 
+/* ***************************** Header Files ***************************** */
+#include "typewise-alert.h"
+#include "ControllerConnect/ControllerSend.h"
+#include "stdio.h"
+
+/* *****************************  Variables  ****************************** */
+BatteryBreachLimit BatteryCoolTypeLimit[3] = {{0,35},{0,45},{0,40}};
+SendStatus(*SendAlertType[])(BreachType) = { sendToController , sendToEmail, sendToConsole};
+char emailAlertStr[3][10] = {"Normal","Low","High"};
+
+/* *************************************************************************
+* Function Name : inferBreach
+* Description   : Check the breach limit
+* Arguments	: 1. value - values for compare
+*		  2. lowerLimit - another values for compare
+*		  3. upperLimit - Maximum acceptable changes
+* Returns	: BreachType(NORMAL / TOO_LOW / TOO_HIGH)
+* ************************************************************************* */
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
     return TOO_LOW;
@@ -11,61 +35,50 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   return NORMAL;
 }
 
-BreachType classifyTemperatureBreach(
-    CoolingType coolingType, double temperatureInC) {
-  int lowerLimit = 0;
-  int upperLimit = 0;
-  switch(coolingType) {
-    case PASSIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 35;
-      break;
-    case HI_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 45;
-      break;
-    case MED_ACTIVE_COOLING:
-      lowerLimit = 0;
-      upperLimit = 40;
-      break;
-  }
-  return inferBreach(temperatureInC, lowerLimit, upperLimit);
-}
-
-void checkAndAlert(
+/* *************************************************************************
+* Function Name : checkAndAlert
+* Description   : Check the breach limit & send a alert
+* Arguments	: 1. alertTarget - Alert type
+*		  2. batteryChar - Cooling Type
+*		  3. temperatureInC - Temperature value
+* Returns	: Send Fail or Pass
+* ************************************************************************* */
+SendStatus checkAndAlert(
     AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
+	
+	SendStatus ReturnStatus = SEND_FAIL;
 
-  BreachType breachType = classifyTemperatureBreach(
-    batteryChar.coolingType, temperatureInC
-  );
-
-  switch(alertTarget) {
-    case TO_CONTROLLER:
-      sendToController(breachType);
-      break;
-    case TO_EMAIL:
-      sendToEmail(breachType);
-      break;
-  }
+	BreachType breachType = inferBreach(temperatureInC, BatteryCoolTypeLimit[batteryChar.coolingType].lowerLimit, 
+								BatteryCoolTypeLimit[batteryChar.coolingType].upperLimit);
+	ReturnStatus = SendAlertType[alertTarget](breachType);
+	
+	return ReturnStatus;
 }
 
-void sendToController(BreachType breachType) {
-  const unsigned short header = 0xfeed;
-  printf("%x : %x\n", header, breachType);
-}
-
-void sendToEmail(BreachType breachType) {
+/* *************************************************************************
+* Function Name : sendToEmail
+* Description   : send a alert via Email
+* Arguments	: 1. BreachType(NORMAL / TOO_LOW / TOO_HIGH)
+* Returns	: Send Fail or Pass
+* ************************************************************************* */
+SendStatus sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
-  switch(breachType) {
-    case TOO_LOW:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too low\n");
-      break;
-    case TOO_HIGH:
-      printf("To: %s\n", recepient);
-      printf("Hi, the temperature is too high\n");
-      break;
-    case NORMAL:
-      break;
-  }
+  printf("To: %s\n", recepient);
+
+ if((breachType == TOO_LOW) || (breachType == TOO_HIGH)) {
+   printf("Hi, the temperature is %s\n",emailAlertStr[breachType]);
+   }
+	  
+ return EMAIL_SEND_PASS;
+}
+
+/* *************************************************************************
+* Function Name : sendToConsole
+* Description   : send a alert to Controller
+* Arguments	: 1. BreachType(NORMAL / TOO_LOW / TOO_HIGH)
+* Returns	: Send Fail or Pass
+* ************************************************************************* */
+ SendStatus sendToConsole(BreachType breachType) {
+  printf("Console : %x\n", breachType);
+  return CONSOLE_SEND_PASS;
 }
