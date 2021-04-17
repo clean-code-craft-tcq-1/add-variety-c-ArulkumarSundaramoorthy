@@ -9,6 +9,7 @@
 
 /* ***************************** Header Files ***************************** */
 #include "typewise-alert.h"
+#include "ControllerSend.h"
 #include <stdio.h>
 
 /* *****************************  Variables  ****************************** */
