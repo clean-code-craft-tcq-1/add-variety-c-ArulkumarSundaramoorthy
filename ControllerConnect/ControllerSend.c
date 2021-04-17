@@ -16,5 +16,9 @@
 * ************************************************************************* */
  SendStatus sendToController(BreachType breachType) {
    //Send to controller
-  return breachType;
+  if((breachType == TOO_LOW) || (breachType == TOO_HIGH))
+  {
+   return CONTROLLER_SEND_PASS;
+  }
+  return CONTROLLER_SEND_PASS;
 }
