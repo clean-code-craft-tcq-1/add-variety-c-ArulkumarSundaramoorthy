@@ -9,8 +9,8 @@
 
 /* ***************************** Header Files ***************************** */
 #include "typewise-alert.h"
-#include "ControllerSend.h"
-#include <stdio.h>
+#include "../ControllerSend.h"
+#include "stdio.h"
 
 /* *****************************  Variables  ****************************** */
 BatteryBreachLimit BatteryCoolTypeLimit[3] = {{0,35},{0,45},{0,40}};
