@@ -46,7 +46,6 @@ typedef enum {
 /* ***************************** Prototypes ***************************** */
 SendStatus checkAndAlert(
   AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
-SendStatus sendToController(BreachType breachType);
 SendStatus sendToEmail(BreachType breachType);
 SendStatus sendToConsole(BreachType breachType);
 BreachType inferBreach(double value, double lowerLimit, double upperLimit);
