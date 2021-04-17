@@ -15,6 +15,7 @@
 /* *****************************  Variables  ****************************** */
 BatteryBreachLimit BatteryCoolTypeLimit[3] = {{0,35},{0,45},{0,40}};
 SendStatus(*SendAlertType[])(BreachType) = { sendToController , sendToEmail, sendToConsole};
+char emailAlertStr[3][10] = {"Normal","Low","High"};
 
 /* *************************************************************************
 * Function Name : inferBreach
@@ -54,6 +55,8 @@ SendStatus checkAndAlert(
 	return ReturnStatus;
 }
 
+
+
 /* *************************************************************************
 * Function Name : sendToController
 * Description   : send a alert to Controller
@@ -63,7 +66,7 @@ SendStatus checkAndAlert(
  SendStatus sendToController(BreachType breachType) {
   const unsigned short header = 0xfeed;
   printf("%x : %x\n", header, breachType);
-  return SEND_PASS;
+  return CONTROLLER_SEND_PASS;
 }
 
 /* *************************************************************************
@@ -75,17 +78,12 @@ SendStatus checkAndAlert(
 SendStatus sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
   printf("To: %s\n", recepient);
-	
-  switch(breachType) {
-    case TOO_LOW:
-      printf("Hi, the temperature is too low\n");
-      break;
-    case TOO_HIGH:
-      printf("Hi, the temperature is too high\n");
-      break;
-  }
-	
- return SEND_PASS;
+
+ if((breachType == TOO_LOW) || (breachType == TOO_HIGH)) {
+   printf("Hi, the temperature is %s\n",emailAlertStr[breachType];
+   }
+	  
+ return EMAIL_SEND_PASS;
 }
 
 /* *************************************************************************
@@ -96,5 +94,5 @@ SendStatus sendToEmail(BreachType breachType) {
 * ************************************************************************* */
  SendStatus sendToConsole(BreachType breachType) {
   printf("Console : %x\n", breachType);
-  return SEND_PASS;
+  return CONSOLE_SEND_PASS;
 }
