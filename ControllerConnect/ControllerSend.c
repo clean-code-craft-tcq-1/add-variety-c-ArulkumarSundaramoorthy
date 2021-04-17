@@ -4,6 +4,10 @@
 * Functions   : 1. sendToController
 * ************************************************************************* */
 
+/* ***************************** Header Files ***************************** */
+#include "typewise-alert.h"
+#include "ControllerSend.h"
+
 /* *************************************************************************
 * Function Name : sendToController
 * Description   : send a alert to Controller
