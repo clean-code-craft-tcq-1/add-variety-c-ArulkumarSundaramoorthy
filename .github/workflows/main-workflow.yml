@@ -15,8 +15,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y gcovr
 
-    - name: build
-      run: g++ -Wall -Wextra -fprofile-arcs -ftest-coverage -o testchecker *.c*
+    - name: build for testing
+      run: g++ -Wall -Wextra -fprofile-arcs -ftest-coverage -o testchecker *.c* ControllerConnect/ControllerSendFake.c
       
     - name: run
       run: ./testchecker
@@ -30,3 +30,6 @@ jobs:
         name: coverage
         path: ./*.html
         retention-days: 1
+        
+     - name: build for production
+      run: g++ -Wall -Wextra -o bmsalerter *.c* ControllerConnect/ControllerSend.c
